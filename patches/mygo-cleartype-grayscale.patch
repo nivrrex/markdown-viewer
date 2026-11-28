@@ -1,0 +1,21 @@
+diff -ruN a/internal/text/dwrite_windows.go b/internal/text/dwrite_windows.go
+--- a/internal/text/dwrite_windows.go	2026-11-21 21:01:38.953056500 +0800
++++ b/internal/text/dwrite_windows.go	2026-11-21 21:02:06.078949100 +0800
+@@ -1421,11 +1421,14 @@
+ 	e.text = scene.TextParams{GammaRatios: scene.GammaRatios(gamma), Contrast: gray, SubpixelContrast: contrast}
+ 	e.bgr = geometry == pixelGeometryBGR
+ 	var smooth int32
+-	var kind uint32
+ 	procSystemParams.Call(spiGetFontSmoothing, 0, uintptr(unsafe.Pointer(&smooth)), 0)
+-	procSystemParams.Call(spiGetFontSmoothingType, 0, uintptr(unsafe.Pointer(&kind)), 0)
+ 	e.aliased = smooth == 0 || call(e.params, paramsGetRenderingMode) == renderingModeAliased
+-	e.clearType = !e.aliased && kind == feFontSmoothingClearType && geometry != pixelGeometryFlat
++	// Glyphs are rasterized into the atlas' RGBA texture and blended by
++	// the GPU. ClearType's per-subpixel coverage leaves colored fringes on
++	// the dense strokes of CJK text at text sizes, which read as grain
++	// beside the grayscale antialiasing Chromium and Pango use: draw
++	// grayscale.
++	e.clearType = false
+ }
+ 
+ func (e *dwrite) textParams() (scene.TextParams, bool) {

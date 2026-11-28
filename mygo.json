@@ -1,0 +1,25 @@
+{
+  "name": "MarkdownViewer",
+  "slug": "markdown-viewer",
+  "identifier": "com.nivrrex.markdownviewer",
+  "version": "0.1.0",
+  "out": "build",
+  "linux": {
+    "comment": "原生 GPU 渲染的 Markdown 阅读器：GFM、代码块复制、字体与字号可调、正文缩放、高 DPI 适配、PDF 导出",
+    "categories": [
+      "Office",
+      "Viewer"
+    ],
+    "webview": false,
+    "command": [
+      "markdown-viewer"
+    ],
+    "maintainer": "nivrrex <nivrrex@users.noreply.github.com>"
+  },
+  "ios": {
+    "minimumSystemVersion": "17.0"
+  },
+  "android": {
+    "minSdk": 26
+  }
+}

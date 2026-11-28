@@ -1,0 +1,4 @@
+/build/
+/.mygo/
+/.mygo-fork/
+mygo_windows_*.syso
